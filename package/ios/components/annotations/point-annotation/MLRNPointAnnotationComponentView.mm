@@ -172,7 +172,14 @@ using namespace facebook::react;
            oldLayoutMetrics:(const facebook::react::LayoutMetrics &)oldLayoutMetrics {
   [super updateLayoutMetrics:layoutMetrics oldLayoutMetrics:oldLayoutMetrics];
 
-  // Forward layout to _view - this triggers reactSetFrame: which adds the annotation to the map
+  // Only forward when the frame actually changed. Fabric calls updateLayoutMetrics: on
+  // every commit, even when this view's layout is unchanged. Unconditionally forwarding
+  // would trigger reactSetFrame: → removeAnnotation: / addAnnotation: on every sibling
+  // re-render, which cancels any active drag gesture on the annotation.
+  if (layoutMetrics.frame == oldLayoutMetrics.frame) {
+    return;
+  }
+
   CGRect frame = CGRectMake(layoutMetrics.frame.origin.x, layoutMetrics.frame.origin.y,
                             layoutMetrics.frame.size.width, layoutMetrics.frame.size.height);
   [_view reactSetFrame:frame];

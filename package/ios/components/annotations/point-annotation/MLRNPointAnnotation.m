@@ -37,12 +37,23 @@ const float CENTER_Y_OFFSET_BASE = -0.5f;
 }
 
 - (void)reactSetFrame:(CGRect)frame {
-  if ([_map.annotations containsObject:self]) {
-    [_map removeAnnotation:self];
-  }
+  BOOL wasAdded = [_map.annotations containsObject:self];
+  BOOL sizeChanged = !CGSizeEqualToSize(self.frame.size, frame.size);
+
   [super reactSetFrame:frame];
-  [self _setCenterOffset:frame];
-  [self _addAnnotation];
+
+  // centerOffset depends on the view size (for anchor calculations), so it only needs
+  // updating when the size actually changed.
+  if (sizeChanged) {
+    [self _setCenterOffset:frame];
+  }
+
+  // Only add on the initial frame set. Removing and re-adding the annotation on every
+  // frame update cancels any active drag gesture and is unnecessary — MLNAnnotation
+  // tracks position via its coordinate property, not via the view's frame origin.
+  if (!wasAdded) {
+    [self _addAnnotation];
+  }
 }
 
 - (void)setAnchor:(NSDictionary<NSString *, NSNumber *> *)anchor {
