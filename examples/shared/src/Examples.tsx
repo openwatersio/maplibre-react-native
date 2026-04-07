@@ -207,6 +207,10 @@ const Examples = new ExampleGroup(
         "ViewAnnotation Anchors",
         MapLibreExamples.ViewAnnotationAnchors,
       ),
+      new ExampleItem(
+        "Draggable ViewAnnotation",
+        MapLibreExamples.DraggableViewAnnotation,
+      ),
       new ExampleItem("Marker", MapLibreExamples.Marker),
       new ExampleItem("Marker Anchors", MapLibreExamples.MarkerAnchors),
       new ExampleItem("Marker as Callout", MapLibreExamples.MarkerAsCallout),

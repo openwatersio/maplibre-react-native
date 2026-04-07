@@ -17,6 +17,7 @@ export { Marker } from "./Annotations/Marker";
 export { MarkerAnchors } from "./Annotations/MarkerAnchors";
 export { ViewAnnotation } from "./Annotations/ViewAnnotation";
 export { ViewAnnotationAnchors } from "./Annotations/ViewAnnotationAnchors";
+export { DraggableViewAnnotation } from "./Annotations/DraggableViewAnnotation";
 
 // Camera
 export { Fit } from "./Camera/Fit";
